@@ -13,10 +13,10 @@ exports.hotelSchema = {
         coordinates: joi
           .object()
           .keys({
-            lat: joi.number().required(),
-            lng: joi.number().required(),
+            type: joi.string().valid("point").required(),
+            coordinates: joi.array().items(joi.number()).length(2).required(),
           })
-          .optional(),
+          .required(),
       })
       .required(),
     starRating: joi.number().min(0).max(5).required(),

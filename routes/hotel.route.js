@@ -38,4 +38,5 @@ router.post(
   upload.array("images", 10),
   hotelController.uploadImage
 );
+router.get("/nearby", hotelController.getHotelNearby);
 module.exports = router;

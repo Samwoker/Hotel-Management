@@ -53,3 +53,18 @@ exports.uploadImage = async (id, files) => {
   await hotel.save();
   return hotel;
 };
+exports.getHotelNearby = async (longitude, latitude, maxDistance = 5000) => {
+  const hotels = await Hotel.find({
+    "location.coordinates": {
+      $near: {
+        $geometry: {
+          type: "Point",
+          coordinates: [longitude, latitude],
+        },
+        $maxDistance: maxDistance,
+      },
+    },
+  });
+  if (!hotels) throw new CustomError(status.NOT_FOUND, "No hotels found");
+  return hotels;
+};

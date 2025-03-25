@@ -1,3 +1,4 @@
+const { required } = require("joi");
 const mongoose = require("mongoose");
 
 const hotelSchema = mongoose.Schema(
@@ -24,8 +25,11 @@ const hotelSchema = mongoose.Schema(
         required: true,
       },
       coordinates: {
-        lat: Number,
-        lng: Number,
+        type: { type: String, enum: ["Point"], required: true },
+        coordinates: {
+          type: [Number],
+          required: true,
+        },
       },
     },
     starRating: {
@@ -54,6 +58,8 @@ const hotelSchema = mongoose.Schema(
   },
   { timestamp: true }
 );
+
+hotelSchema.index({"location.coordinates": "2dsphere"});
 
 const Hotel = mongoose.model("Hotel", hotelSchema);
 module.exports = Hotel;

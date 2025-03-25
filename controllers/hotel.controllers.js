@@ -46,3 +46,18 @@ exports.uploadImage = catchAsync(async (req, res) => {
   const hotel = await hotelService.uploadImage(id, req.files);
   res.status(status.OK).json({ hotel });
 });
+exports.getHotelNearby = catchAsync(async (req, res) => {
+  const { longitude, latitude, maxDistance } = req.query;
+  if (!longitude || !latitude) {
+    throw new CustomError(
+      status.BAD_REQUEST,
+      "Please provide longitude and latitude"
+    );
+  }
+  const hotels = await hotelService.getHotelNearby(
+    parseFloat(longitude),
+    parseFloat(latitude),
+    parseInt(maxDistance) || 5000
+  );
+  res.status(status.OK).json({ hotels });
+});
