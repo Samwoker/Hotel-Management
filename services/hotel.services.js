@@ -1,3 +1,4 @@
+const { description, id } = require("../validation/env.validation");
 const Hotel = require("./../models/hotel.model");
 const CustomError = require("./../utils/customError");
 const { status } = require("http-status");
@@ -16,7 +17,7 @@ exports.getHotel = async (id) => {
   if (!hotel) throw new CustomError(status.NOT_FOUND, "Hotel not found");
   return hotel;
 };
-exports.updateHotel = async (id,updateData) => {
+exports.updateHotel = async (id, updateData) => {
   const updatedHotel = await Hotel.findByIdAndUpdate(id, updateData, {
     new: true,
     runValidators: true,
@@ -42,5 +43,13 @@ exports.getHotelByRating = async (starRating) => {
 exports.getHotelByCity = async (city) => {
   const hotel = await Hotel.findOne({ city });
   if (!hotel) throw new CustomError(status.NOT_FOUND, "Hotel not found");
+  return hotel;
+};
+exports.uploadImage = async (id, files) => {
+  const hotel = await Hotel.findById(id);
+  if (!hotel) throw new CustomError(status.NOT_FOUND, "Hotel not found");
+  const filePaths = files.map((file) => file.path);
+  hotel.images = filePaths;
+  await hotel.save();
   return hotel;
 };

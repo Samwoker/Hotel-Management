@@ -4,6 +4,7 @@ const { authenticate, authorize } = require("./../middlewares/auth");
 const { hotelController } = require("./../controllers");
 const { validate } = require("./../middlewares/validation");
 const { hotelValidation } = require("./../validation");
+const upload = require("./../middlewares/upload");
 
 router.post(
   "/",
@@ -30,4 +31,11 @@ router.delete(
 router.get("/search", hotelController.searchHotel);
 router.get("/star-rating/:rating", hotelController.getHotelByRating);
 router.get("/city/:city", hotelController.getHotelByCity);
+router.post(
+  "/:id/images",
+  authenticate,
+  authorize("Admin"),
+  upload.array("images", 10),
+  hotelController.uploadImage
+);
 module.exports = router;
