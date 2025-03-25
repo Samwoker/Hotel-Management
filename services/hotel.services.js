@@ -11,12 +11,12 @@ exports.getAllHotels = async () => {
   if (!hotels) throw new CustomError(status.NOT_FOUND, "No hotels found");
   return hotels;
 };
-exports.getHotel = async (id, updateData) => {
+exports.getHotel = async (id) => {
   const hotel = await Hotel.findById(id);
   if (!hotel) throw new CustomError(status.NOT_FOUND, "Hotel not found");
   return hotel;
 };
-exports.updateHotel = async (id) => {
+exports.updateHotel = async (id,updateData) => {
   const updatedHotel = await Hotel.findByIdAndUpdate(id, updateData, {
     new: true,
     runValidators: true,
@@ -36,6 +36,11 @@ exports.searchHotel = async (name) => {
 };
 exports.getHotelByRating = async (starRating) => {
   const hotel = await Hotel.findOne({ starRating });
+  if (!hotel) throw new CustomError(status.NOT_FOUND, "Hotel not found");
+  return hotel;
+};
+exports.getHotelByCity = async (city) => {
+  const hotel = await Hotel.findOne({ city });
   if (!hotel) throw new CustomError(status.NOT_FOUND, "Hotel not found");
   return hotel;
 };

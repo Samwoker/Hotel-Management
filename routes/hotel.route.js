@@ -28,4 +28,6 @@ router.delete(
   hotelController.deleteHotel
 );
 router.get("/search", hotelController.searchHotel);
+router.get("/star-rating/:rating", hotelController.getHotelByRating);
+router.get("/city/:city", hotelController.getHotelByCity);
 module.exports = router;

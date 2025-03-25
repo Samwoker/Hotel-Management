@@ -36,3 +36,8 @@ exports.getHotelByRating = catchAsync(async (req, res) => {
   const hotel = await hotelService.getHotelByRating(rating);
   res.status(status.OK).json({ hotel });
 });
+exports.getHotelByCity = catchAsync(async (req, res) => {
+  const city = req.params.city;
+  const hotel = await hotelService.getHotelByCity(city);
+  res.status(status.OK).json({ hotel });
+});
