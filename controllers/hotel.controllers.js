@@ -61,3 +61,9 @@ exports.getHotelNearby = catchAsync(async (req, res) => {
   );
   res.status(status.OK).json({ hotels });
 });
+exports.updateAmenities = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const amenities = req.body;
+  const hotel = await hotelService.updateAmenities(id, amenities);
+  res.status(status.OK).json({ hotel });
+});

@@ -39,4 +39,5 @@ router.post(
   hotelController.uploadImage
 );
 router.get("/nearby", hotelController.getHotelNearby);
+router.patch("/:id/amenities",authenticate,authorize("Admin","Staff"),hotelController.updateAmenities)
 module.exports = router;

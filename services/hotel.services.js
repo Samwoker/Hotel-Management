@@ -68,3 +68,10 @@ exports.getHotelNearby = async (longitude, latitude, maxDistance = 5000) => {
   if (!hotels) throw new CustomError(status.NOT_FOUND, "No hotels found");
   return hotels;
 };
+exports.updateAmenities = async (id,amenities)=>{
+  const hotel = await Hotel.findById(id);
+  if(!hotel) throw new CustomError(status.NOT_FOUND, "Hotel not found");
+  hotel.amenities = amenities;
+  await hotel.save();
+  return hotel;
+}
