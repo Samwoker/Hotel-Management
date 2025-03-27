@@ -36,12 +36,12 @@ exports.searchHotel = async (name) => {
   return hotel;
 };
 exports.getHotelByRating = async (starRating) => {
-  const hotel = await Hotel.findOne({ starRating });
+  const hotel = await Hotel.find({ starRating });
   if (!hotel) throw new CustomError(status.NOT_FOUND, "Hotel not found");
   return hotel;
 };
 exports.getHotelByCity = async (city) => {
-  const hotel = await Hotel.findOne({ city });
+  const hotel = await Hotel.find({ "location.city": city });
   if (!hotel) throw new CustomError(status.NOT_FOUND, "Hotel not found");
   return hotel;
 };
@@ -68,10 +68,19 @@ exports.getHotelNearby = async (longitude, latitude, maxDistance = 5000) => {
   if (!hotels) throw new CustomError(status.NOT_FOUND, "No hotels found");
   return hotels;
 };
-exports.updateAmenities = async (id,amenities)=>{
+exports.updateAmenities = async (id, amenities) => {
+  if (
+    !Array.isArray(amenities) ||
+    !amenities.every((item) => typeof item === "string")
+  ) {
+    throw new CustomError(
+      status.BAD_REQUEST,
+      "Amenities must be an array of strings"
+    );
+  }
   const hotel = await Hotel.findById(id);
-  if(!hotel) throw new CustomError(status.NOT_FOUND, "Hotel not found");
+  if (!hotel) throw new CustomError(status.NOT_FOUND, "Hotel not found");
   hotel.amenities = amenities;
   await hotel.save();
   return hotel;
-}
+};

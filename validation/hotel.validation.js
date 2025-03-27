@@ -13,7 +13,7 @@ exports.hotelSchema = {
         coordinates: joi
           .object()
           .keys({
-            type: joi.string().valid("point").required(),
+            type: joi.string().valid("Point").required(),
             coordinates: joi.array().items(joi.number()).length(2).required(),
           })
           .required(),

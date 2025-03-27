@@ -14,12 +14,13 @@ router.post(
   hotelController.createHotel
 );
 router.get("/", hotelController.getAllHotels);
+router.get("/search", hotelController.searchHotel);
+router.get("/nearby", hotelController.getHotelNearby);
 router.get("/:id", hotelController.getHotel);
 router.patch(
   "/:id",
   authenticate,
   authorize("Admin", "Staff"),
-  validate(hotelValidation.hotelSchema),
   hotelController.updateHotel
 );
 router.delete(
@@ -28,16 +29,14 @@ router.delete(
   authorize("Admin"),
   hotelController.deleteHotel
 );
-router.get("/search", hotelController.searchHotel);
 router.get("/star-rating/:rating", hotelController.getHotelByRating);
 router.get("/city/:city", hotelController.getHotelByCity);
 router.post(
-  "/:id/images",
+  "/images/:id",
   authenticate,
   authorize("Admin"),
   upload.array("images", 10),
   hotelController.uploadImage
 );
-router.get("/nearby", hotelController.getHotelNearby);
-router.patch("/:id/amenities",authenticate,authorize("Admin","Staff"),hotelController.updateAmenities)
+router.patch("/amenities/:id",authenticate,authorize("Admin","Staff"),hotelController.updateAmenities)
 module.exports = router;
